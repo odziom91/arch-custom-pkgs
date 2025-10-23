@@ -1,0 +1,51 @@
+# DOSBox Pure Unleashed - git version
+# Maintainer: Krzysztof Odziomek <odziomek91@gmail.com>
+pkgname=dosbox-pure-unleashed-git
+pkgver=r3.d9d4e35
+pkgrel=1
+pkgdesc="DOSBox Pure Unleashed – Enhanced DOSBox Pure build with ZillaLib."
+arch=('x86_64')
+url="https://github.com/schellingb/dosbox-pure-unleashed"
+license=('GPL2')
+depends=('alsa-lib' 'sdl2' 'zlib' 'libpng')
+makedepends=('git' 'make' 'gcc')
+source=(
+    "git+https://github.com/schellingb/dosbox-pure-unleashed.git"
+    "git+https://github.com/schellingb/dosbox-pure.git"
+    "git+https://github.com/schellingb/ZillaLib.git"
+)
+sha256sums=('SKIP' 'SKIP' 'SKIP')
+
+pkgver() {
+    cd "$srcdir/dosbox-pure-unleashed"
+    echo "r$(git rev-list --count HEAD).$(git rev-parse --short HEAD)"
+}
+
+prepare() {
+    cd "$srcdir/ZillaLib/Source/sdl/include"
+    sed -i '/#if defined(__aarch64__)/,/^#endif/d' SDL_config_linux.h
+    echo '#define SDL_AUDIO_DRIVER_ALSA_DYNAMIC "libasound.so.2"' >> SDL_config_linux.h
+}
+
+build() {
+    cd "$srcdir/dosbox-pure-unleashed"
+    ln -sf "$srcdir/dosbox-pure" ./dosbox-pure
+    ln -sf "$srcdir/ZillaLib" ./ZillaLib
+    make linux-release -j$(nproc)
+}
+
+package() {
+    cd "$srcdir/dosbox-pure-unleashed"
+    install -Dm755 "Release-linux/DOSBoxPure_x86_64" "$pkgdir/usr/bin/dosbox-pure-unleashed"
+    install -Dm644 "images/logo.png" "$pkgdir/usr/share/icons/hicolor/128x128/apps/dosbox-pure-unleashed.png"
+    install -Dm644 /dev/stdin "$pkgdir/usr/share/applications/dosbox-pure-unleashed.desktop" <<EOF
+[Desktop Entry]
+Name=DOSBox Pure Unleashed
+Comment=Enhanced DOSBox Pure build with ZillaLib
+Exec=dosbox-pure-unleashed
+Icon=dosbox-pure-unleashed
+Terminal=false
+Type=Application
+Categories=Game;Emulator;
+EOF
+}
