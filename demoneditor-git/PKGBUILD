@@ -1,0 +1,74 @@
+# DemonEditor - git version
+# Maintainer: Krzysztof Odziomek <odziomek91@gmail.com>
+pkgname=demoneditor-git
+_pkgname=DemonEditor
+pkgver=3c04a002
+pkgrel=1
+pkgdesc="Enigma2 channel and satellite list editor (development version from Git)"
+arch=('any')
+url="https://github.com/DYefremov/DemonEditor"
+license=('GPL3')
+depends=('python>=3.6' 'gtk3>=3.22' 'python-gobject' 'python-requests' 'python-telnetlib-313-and-up')
+optdepends=('python-pillow' 'python-chardet')
+makedepends=('git')
+provides=('demoneditor-bin')
+conflicts=('demoneditor-bin')
+source=("git+$url")
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/$_pkgname"
+  git describe --always | sed 's/^v//;s/-/./g'
+}
+
+package() {
+  cd "$srcdir"
+  install -d "$pkgdir/usr/share/demoneditor"
+  cp -a "$_pkgname/." "$pkgdir/usr/share/demoneditor/"
+
+  sed -i -E '/^[[:space:]]*update_icon\(\)[[:space:]]*$/d' "$pkgdir/usr/share/demoneditor/start.py"
+
+  install -d "$pkgdir/usr/bin"
+  cat > "$pkgdir/usr/bin/demoneditor" << 'EOF'
+#!/usr/bin/env bash
+exec python3 /usr/share/demoneditor/start.py "$@"
+EOF
+  chmod +x "$pkgdir/usr/bin/demoneditor"
+
+  install -d "$pkgdir/usr/share/icons/hicolor/96x96/apps"
+  install -Dm644 "$_pkgname/app/ui/icons/hicolor/96x96/apps/demon-editor.png" \
+    "$pkgdir/usr/share/icons/hicolor/96x96/apps/demon-editor.png"
+
+  install -d "$pkgdir/usr/share/applications"
+  cat > "$pkgdir/usr/share/applications/demon-editor.desktop" << 'EOF'
+[Desktop Entry]
+Name=DemonEditor
+GenericName=Enigma2 bouquets editor
+GenericName[be]=Рэдактар букетаў Enigma2
+GenericName[de]=Enigma2 Bouquet-Editor
+GenericName[es]=Editor de ramos de Enigma2
+GenericName[it]=Editor di bouquet Enigma2
+GenericName[nl]=Enigma2 boeket editor
+GenericName[pl]=Edytor bukietów Enigma2
+GenericName[pt]=Editor de buquês Enigma2
+GenericName[ru]=Редактор букетов Enigma2
+GenericName[tr]=Enigma2 buket düzenleyici
+GenericName[zh_CN]=Enigma2频道编辑器
+Comment=Channel and satellite list editor for Enigma2
+Comment[be]=Рэдактар спісу каналаў і супутнікаў для Enigma2
+Comment[de]=Kanal- und Satellitenlisten-Editor für Enigma2
+Comment[es]=Editor de lista de canales y satélites para Enigma2
+Comment[it]=Editor di elenchi di canali e satelliti per Enigma2
+Comment[nl]=Kanaal- en satellietlijsteditor voor Enigma2
+Comment[pl]=Edytor list kanałów i satelitów dla Enigma2
+Comment[pt]=Editor de lista de canais e satélites para Enigma2
+Comment[ru]=Редактор списка каналов и спутников для Enigma2
+Comment[tr]=Enigma2 için Kanal ve uydu listesi düzenleyici
+Comment[zh_CN]=Enigma2频道和卫星列表编辑器
+Exec=demoneditor
+Icon=demon-editor
+Terminal=false
+Type=Application
+Categories=Utility;Application;
+EOF
+}
