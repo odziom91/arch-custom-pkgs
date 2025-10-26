@@ -1,7 +1,7 @@
 # DOSBox Pure Unleashed - git version
 # Maintainer: Krzysztof Odziomek <odziomek91@gmail.com>
 pkgname=dosbox-pure-unleashed-git
-pkgver=r3.d9d4e35
+pkgver=r7.ff313a4
 pkgrel=1
 pkgdesc="DOSBox Pure Unleashed – Enhanced DOSBox Pure build with ZillaLib."
 arch=('x86_64')
@@ -21,12 +21,6 @@ pkgver() {
     echo "r$(git rev-list --count HEAD).$(git rev-parse --short HEAD)"
 }
 
-prepare() {
-    cd "$srcdir/ZillaLib/Source/sdl/include"
-    sed -i '/#if defined(__aarch64__)/,/^#endif/d' SDL_config_linux.h
-    echo '#define SDL_AUDIO_DRIVER_ALSA_DYNAMIC "libasound.so.2"' >> SDL_config_linux.h
-}
-
 build() {
     cd "$srcdir/dosbox-pure-unleashed"
     ln -sf "$srcdir/dosbox-pure" ./dosbox-pure
@@ -42,6 +36,16 @@ package() {
 [Desktop Entry]
 Name=DOSBox Pure Unleashed
 Comment=Enhanced DOSBox Pure build with ZillaLib
+Comment[be]=Пашыраная зборка DOSBox Pure з ZillaLib
+Comment[de]=Erweiterter DOSBox-Pure-Build mit ZillaLib
+Comment[es]=Versión mejorada de DOSBox Pure con ZillaLib
+Comment[it]=Build avanzata di DOSBox Pure con ZillaLib
+Comment[nl]=Verbeterde DOSBox Pure-build met ZillaLib
+Comment[pl]=Ulepszona kompilacja DOSBox Pure z ZillaLib
+Comment[pt]=Versão aprimorada do DOSBox Pure com ZillaLib
+Comment[ru]=Улучшенная сборка DOSBox Pure с ZillaLib
+Comment[tr]=ZillaLib ile geliştirilmiş DOSBox Pure sürümü
+Comment[zh_CN]=带有 ZillaLib 的增强版 DOSBox Pure 构建
 Exec=dosbox-pure-unleashed
 Icon=dosbox-pure-unleashed
 Terminal=false
