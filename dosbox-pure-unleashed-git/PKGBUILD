@@ -1,7 +1,7 @@
 # DOSBox Pure Unleashed - git version
 # Maintainer: Krzysztof Odziomek <odziomek91@gmail.com>
 pkgname=dosbox-pure-unleashed-git
-pkgver=r7.ff313a4
+pkgver=latest
 pkgrel=1
 pkgdesc="DOSBox Pure Unleashed – Enhanced DOSBox Pure build with ZillaLib."
 arch=('x86_64')
