@@ -1,0 +1,59 @@
+# Waterfox
+# Maintainer: Krzysztof Odziomek <odziomek91@gmail.com>
+pkgname=waterfox
+pkgver=6.6.5
+pkgrel=2
+pkgdesc="Waterfox – a privacy-focused web browser based on Firefox."
+arch=('x86_64')
+url="https://www.waterfox.net/"
+license=('MPL2')
+depends=('gtk3' 'libxt' 'startup-notification' 'mime-types' 'dbus-glib' 'ffmpeg' 'ttf-font' 'hicolor-icon-theme')
+optdepends=('networkmanager: Location detection via available WiFi networks'
+  'libnotify: Notification integration'
+  'pulseaudio: Audio support'
+  'alsa-lib: Audio support'
+  'speech-dispatcher: Text-to-Speech'
+  'hunspell-en_US: Spell checking, American English')
+provides=('waterfox')
+conflicts=('waterfox-classic' 'waterfox-current' 'waterfox-bin' 'waterfox-beta')
+source=("https://cdn1.waterfox.net/waterfox/releases/${pkgver}/Linux_x86_64/waterfox-${pkgver}.tar.bz2")
+sha512sums=('1e010de6d0e79aa5f6a42da1ca2f25b51fbd9e9aa0cf766b4840771c3520ab4f3418f85f1b2ab98665b87cc4361644e2929bf7c3c9bfe83676f950c948016ceb')
+
+package() {
+  install -d "$pkgdir/usr/lib"
+  cp -r "$srcdir/waterfox" "$pkgdir/usr/lib/waterfox"
+
+  install -Dm755 /dev/stdin "$pkgdir/usr/bin/waterfox" << 'EOF'
+#!/bin/sh
+exec /usr/lib/waterfox/waterfox "$@"
+EOF
+
+  install -Dm644 "$pkgdir/usr/lib/waterfox/browser/chrome/icons/default/default128.png" \
+    "$pkgdir/usr/share/icons/hicolor/128x128/apps/waterfox.png"
+
+  install -Dm644 /dev/stdin "$pkgdir/usr/share/applications/waterfox.desktop" << 'EOF'
+[Desktop Entry]
+Name=Waterfox
+
+Comment=Browse the Web
+Comment[pl]=Przeglądaj Internet
+Comment[en_GB]=Browse the Web
+Comment[de]=Im Internet surfen
+Comment[fr]=Naviguez sur le Web
+Comment[es]=Navega por la web
+Comment[it]=Naviga nel Web
+Comment[pt]=Navegue na Internet
+Comment[ru]=Просматривайте интернет
+Comment[ja]=ウェブを閲覧する
+Comment[zh_CN]=浏览网页
+Comment[zh_TW]=瀏覽網頁
+
+GenericName=Web Browser
+Exec=waterfox %u
+Icon=waterfox
+Type=Application
+StartupNotify=true
+Categories=Network;WebBrowser;
+MimeType=text/html;text/xml;application/xhtml+xml;x-scheme-handler/http;x-scheme-handler/https;
+EOF
+}
