@@ -8,7 +8,7 @@ RUN pacman-key --init \
 
 # prepare environment for makepkg
 RUN pacman -Sy --noconfirm \
-    base base-devel git sudo python \
+    base base-devel git sudo python pipewire pipewire-pulse \
     && pacman -Scc --noconfirm
 
 # create non-root user bobthebuilder
