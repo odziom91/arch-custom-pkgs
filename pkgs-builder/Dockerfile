@@ -11,7 +11,13 @@ RUN pacman -Sy --noconfirm \
     base base-devel git sudo python \
     && pacman -Scc --noconfirm
 
+# create non-root user bobthebuilder
 ARG USERNAME=bobthebuilder
 RUN useradd -m $USERNAME
 
-RUN cd /home/${USERNAME} && ls -la /home && ls -la /home/${USERNAME}
+# prepare build directory for non-root user
+RUN mkdir -p /home/${USERNAME}/build && chown bobthebuilder:bobthebuilder /home/${USERNAME}/build
+
+# set user and workdir
+USER {USERNAME}
+WORKDIR /home/${USERNAME}/build
