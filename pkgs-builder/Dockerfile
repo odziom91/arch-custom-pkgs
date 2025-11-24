@@ -14,5 +14,4 @@ RUN pacman -Sy --noconfirm \
 ARG USERNAME=bobthebuilder
 RUN useradd -m $USERNAME
 
-RUN cd /home/${USERNAME}
-RUN ls -la
+RUN cd /home/${USERNAME} && ls -la /home && ls -la /home/${USERNAME}
