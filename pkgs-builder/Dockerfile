@@ -16,8 +16,8 @@ ARG USERNAME=bobthebuilder
 RUN useradd -m $USERNAME
 
 # prepare build directory for non-root user
-RUN mkdir -p /home/${USERNAME}/build && chown bobthebuilder:bobthebuilder /home/${USERNAME}/build
+RUN mkdir -p /home/$USERNAME/build && chown bobthebuilder:bobthebuilder /home/$USERNAME/build
 
 # set user and workdir
-USER ${USERNAME}
-WORKDIR /home/${USERNAME}/build
+USER $USERNAME
+WORKDIR /home/$USERNAME/build
