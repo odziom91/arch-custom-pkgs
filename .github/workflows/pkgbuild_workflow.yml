@@ -38,7 +38,7 @@ jobs:
         run: |
           for pkgdir in $(find . -type f -name PKGBUILD -exec dirname {} \;); do
             echo "=== Building $pkgdir ==="
-            docker run --rm -u 1000 \
+            docker run --rm -u 1001 \
             -v "$PWD/$pkgdir":/home/bobthebuilder/build \
             pkgs-builder \
             bash -c "pwd && ls -la && ls -la /home/bobthebuilder && makepkg -sf --noconfirm"
