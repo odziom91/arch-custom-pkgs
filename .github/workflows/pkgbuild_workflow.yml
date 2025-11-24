@@ -24,6 +24,10 @@ jobs:
       - name: Checkout repo
       - uses: actions/checkout@v4
 
+      # Set up Docker Buildx
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
       # Build pkgs-builder Docker image
       - name: Build pkgs-builder Docker image
         run: |
