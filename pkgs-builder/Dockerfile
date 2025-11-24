@@ -19,5 +19,5 @@ RUN useradd -m $USERNAME
 RUN mkdir -p /home/${USERNAME}/build && chown bobthebuilder:bobthebuilder /home/${USERNAME}/build
 
 # set user and workdir
-USER {USERNAME}
+USER ${USERNAME}
 WORKDIR /home/${USERNAME}/build
