@@ -13,7 +13,7 @@ RUN pacman -Sy --noconfirm \
 
 # create non-root user bobthebuilder
 ARG USERNAME=bobthebuilder
-RUN useradd -m $USERNAME
+RUN useradd -m -u 1001 $USERNAME
 
 # prepare build directory for non-root user
 RUN mkdir -p /home/$USERNAME/build && chown bobthebuilder:bobthebuilder /home/$USERNAME/build
