@@ -32,3 +32,14 @@ jobs:
       - name: Build pkgs-builder Docker image
         run: |
           docker build -t pkgs-builder ./pkgs-builder
+
+      # pkgbuild 
+      - name: Create pkgs
+        run: |
+          for pkgdir in $(find . -type f -name PKGBUILD -exec dirname {} \;); do
+            echo "=== Building $pkgdir ==="
+            docker run --rm \
+            -v "$PWD/$pkgdir":/home/bobthebuilder/build \
+            pkgs-builder \
+            bash -c "makepkg -sf --noconfirm"
+          done
