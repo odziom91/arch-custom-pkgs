@@ -1,8 +1,8 @@
 # Waterfox
 # Maintainer: Krzysztof Odziomek <odziomek91@gmail.com>
 pkgname=waterfox
-pkgver=6.6.5
-pkgrel=2
+pkgver=6.6.5.1
+pkgrel=1
 pkgdesc="Waterfox – a privacy-focused web browser based on Firefox."
 arch=('x86_64')
 url="https://www.waterfox.net/"
@@ -17,7 +17,7 @@ optdepends=('networkmanager: Location detection via available WiFi networks'
 provides=('waterfox')
 conflicts=('waterfox-classic' 'waterfox-current' 'waterfox-bin' 'waterfox-beta')
 source=("https://cdn1.waterfox.net/waterfox/releases/${pkgver}/Linux_x86_64/waterfox-${pkgver}.tar.bz2")
-sha512sums=('1e010de6d0e79aa5f6a42da1ca2f25b51fbd9e9aa0cf766b4840771c3520ab4f3418f85f1b2ab98665b87cc4361644e2929bf7c3c9bfe83676f950c948016ceb')
+sha512sums=('15f34b74d20f7adac444bcbcddf552f151ad362f837c4dfe086d7e096bb2b7f0ffc4d9989dab3fff3e972405a68978c2bc164b17868a877065dce07b9efe7c5d')
 
 package() {
   install -d "$pkgdir/usr/lib"
