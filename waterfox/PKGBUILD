@@ -17,7 +17,7 @@ optdepends=('networkmanager: Location detection via available WiFi networks'
 provides=('waterfox')
 conflicts=('waterfox-classic' 'waterfox-current' 'waterfox-bin' 'waterfox-beta')
 source=("https://cdn1.waterfox.net/waterfox/releases/${pkgver}/Linux_x86_64/waterfox-${pkgver}.tar.bz2")
-sha512sums=('15f34b74d20f7adac444bcbcddf552f151ad362f837c4dfe086d7e096bb2b7f0ffc4d9989dab3fff3e972405a68978c2bc164b17868a877065dce07b9efe7c5d')
+sha512sums=('534fbab578eef8a4fa26a225c22d7e2140f55b38e49e62b8476c68613044f4a610cdbdf18bea90916ca0ac68d43d29e3d5c9ae95869a374b3c6d6dbb379ce6a6')
 
 package() {
   install -d "$pkgdir/usr/lib"
